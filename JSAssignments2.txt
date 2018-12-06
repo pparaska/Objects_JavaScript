@@ -1,0 +1,210 @@
+
+1. Write a JS program to create object of person with fields as follows:-
+fname - string
+lname - string
+age - int
+skills - array
+address - object
+	city - string
+	pincode - int
+dateOfBirth - Date
+married - Boolean
+profession - string
+
+Create minimum 2 objects and display the object's detail uisng global print method.
+
+Ans:
+
+/*************************************************************************************************************************************/
+var person1 = {
+    fname: "Poonam", lname: "Paraskar", age: 21, skills: ['c', 'java'],
+    address: add = {
+        city: "Mumbai",
+        pincode: "400709"
+    },
+    dateOfBirth: new Date('1997-08-17').toDateString(),
+    married: false, profession: "Engineer",
+    print() {
+        console.log(this.fname, this.lname, this.age, this.skills, this.address, this.dateOfBirth, this.married, this.profession);
+    }
+}
+
+
+var person2 = {
+    fname: "Prachi", lname: "Onkar", age: 21, skills: ['JS', 'html'],
+    address: add = {
+        city: "Nagpur",
+        pincode: "485441"
+    },
+    dateOfBirth: new Date('1997-01-01').toDateString(),
+    married: true,
+    profession: "Singer",
+    print() {
+        console.log(this.fname, this.lname, this.age, this.skills, this.address, this.dateOfBirth, this.married, this.profession);
+
+    }
+}
+
+person1.print();
+person2.print();
+/****************************************************************************************************************************************/
+
+2. Modify the above program to create 2 objects, amitabh and abhishek, here abhishek has some common properties from amitabh, try to use it such common 
+properties from amitabh instead of creating it in abhishek.
+
+Ans:
+
+/**********************************************************************************************************************************/
+var amitabh = new Object();
+amitabh.fname = "Amitabh";
+amitabh.lname = "Bacchan";
+amitabh.age = 70;
+amitabh.skills = ['Acting', 'Writing'];
+amitabh.address = {
+    city: "Mumbai",
+    pincode: "400709"
+};
+amitabh.dateOfBirth = new Date('1950-04-15').toDateString();
+amitabh.married = true;
+amitabh.profession = "Actor";
+amitabh.print = function () {
+    console.log(this.fname, this.lname, this.age, this.skills, this.address, this.dateOfBirth, this.married, this.profession);
+}
+
+var abhishek = Object.create(amitabh);
+abhishek.fname = "Abhishek";
+abhishek.age = 45;
+abhishek.dateOfBirth = new Date('1975-07-21').toDateString();
+
+abhishek.print();
+amitabh.print();
+/************************************************************************************************************************************/
+
+
+3. Modify the above code to create third object as "Aaradhya", this object shares the common properties from amitabh as well as abhishek accordingly demostrate on your own.
+
+Ans:
+/*******************************************************************************************************************************/
+var amitabh = new Object();
+amitabh.fname = "Amitabh";
+amitabh.lname = "Bachchan";
+amitabh.age = 70;
+amitabh.skills = ['Acting', 'Dancing'];
+amitabh.address = {
+    city: "Mumbai",
+    pincode: "400001"
+};
+amitabh.dateOfBirth = new Date('1950-04-15').toDateString();
+amitabh.married = true;
+amitabh.profession = "Actor";
+amitabh.print = function () {
+    console.log(this.fname, this.lname, this.age, this.skills, this.address, this.dateOfBirth, this.married, this.profession);
+}
+
+var abhishek = Object.create(amitabh);
+abhishek.fname = "Abhishek";
+abhishek.age = 45;
+abhishek.dateOfBirth = new Date('1975-07-21').toDateString();
+
+var aradhya = Object.create(abhishek);
+aradhya.fname = "Aaradhya";
+aradhya.age = 5;
+aradhya.dateOfBirth = new Date('2012-06-30').toDateString();
+aradhya.profession = "student";
+aradhya.married = false;
+aradhya.skills = ['painting', 'singing'];
+
+abhishek.print();
+amitabh.print();
+aradhya.print();
+/*******************************************************************************************************************************/
+
+
+
+
+
+4. Create a JS program to implement below:-
+
+	   BankAccount
+		|(accountNumber)
+		|(accountHolderName)
+		|(accountBalance)
+	-------------------------
+	|			|
+	Savings			Current
+	    (isSalary)		     (odLimit)
+
+
+Now, 
+create 1 object of savings with accountNumber, accountHolderName, accountBalance and isSalary.
+create 1 object of currrent with accountNumber, accountHolderName, accountBalance and odLimit.
+
+use savings account object to call a function withdraw(amount), that will subtract the amount from the accountBalance, Note that accountBalance should not go below 0.
+
+use current account object to calla function withdraw(amount), that will subtract the amount from the accountBalance, Note that accountBalance should not go below negative of odLimit.
+
+Now, call getCurrentBalance() from both the object, that will return the accountBalance of the object used to call this method.
+
+Ans:
+
+/********************************************************************************************/
+class BankAccount {
+    constructor(accountNumber, accountHolderName, accountBalance) {
+        this.accountNumber = accountNumber;
+        this.accountHolderName = accountHolderName;
+        this.accountBalance = accountBalance;
+
+    }
+    deposit(amount) {
+        this.accountBalance += parseInt(amount);
+    }
+    getAccountBalance() {
+        console.log(this.accountBalance);
+    }
+
+};
+class Savings extends BankAccount {
+    constructor(accountNumber, accountHolderName, accountBalance, isSalary) {
+        super(accountNumber, accountHolderName, accountBalance);
+        this.isSalary = isSalary;
+    }
+    withdrawl(amount) {
+        if (this.accountBalance < parseInt(amount))
+            console.log("Insufficient Balance");
+        else {
+            this.accountBalance -= amount;
+        }
+
+    }
+};
+var savings = new Savings(123654, "Kim", 50000, true);
+console.log(savings);
+savings.getAccountBalance();
+savings.deposit(1000);
+savings.getAccountBalance();
+savings.withdrawl(500);
+savings.getAccountBalance();
+
+class Current extends BankAccount {
+    constructor(accountNumber, accountHolderName, accountBalance, odLimit) {
+        super(accountNumber, accountHolderName, accountBalance);
+        this.odLimit = odLimit;
+    }
+    withdrawl(amount) {
+        if (this.accountBalance + this.odLimit < parseInt(amount))
+            console.log("Can't withdraw");
+        else {
+            this.accountBalance -= amount;
+
+        }
+    }
+};
+var current = new Current(724454, "Jack", 80000, 200000);
+console.log(current);
+current.getAccountBalance();
+current.deposit(1000);
+current.getAccountBalance();
+current.withdrawl(100000);
+current.getAccountBalance();
+/********************************************************************************************/
+
